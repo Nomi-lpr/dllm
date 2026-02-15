@@ -1,21 +1,7 @@
 __pycache__/
 *.pyc
 
-# Result files and logs
-results/
-results_*/
-IEAR_results_*/
-batch_analysis_*_results_*/
-*.log
-# *.jsonl
-# *.json
-!requirements.json
-!package.json
-# 允许 data 文件夹下的 JSON 文件（不推送大 parquet，避免 LFS/推送失败）
-!data/*.json
-!data/*.jsonl
-# *.parquet 不提交，避免 LFS 和推送卡住
-*.parquet
+
 # Analysis output directories
 llada_gsm8k_eval/results_*/
 llada_gsm8k_eval/IEAR_results_*/
@@ -26,26 +12,8 @@ llada_gsm8k_eval/batch_analysis_*_results_*/
 *.jpg
 *.jpeg
 
-# Jupyter notebook checkpoints
-.ipynb_checkpoints/
 
-# Temporary files
-*.tmp
-*.temp
-llada_gsm8k_eval/temp_attention_weights/
 
-# Parameters and configuration files
-params/
-conf_results/
-results/
-rollout_results/
-heatmap_results/
-
-# Generated data and cache
-generated_icd_data/
-cache/
-outputs/
-sub_proc_data/
 
 # Temporary log files
 /tmp/*.log

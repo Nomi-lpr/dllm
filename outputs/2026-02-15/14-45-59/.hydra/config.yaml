@@ -1,0 +1,114 @@
+few_shot_num: 4
+beam_size: 5
+scorer: infoscore
+batch_size: 1
+metric: no_order
+device: cuda
+precision: bf16
+candidate_num: 64
+anchor_sample_num: 100
+use_multi_gpu: false
+gpu_ids:
+- 0
+sleep_time: 10
+output_dir: ./generated_icd_data
+merge_results: false
+mc_num: 1
+cfg_scale: 0.0
+task:
+  task_name: ceval
+  split_token: '
+
+
+    '
+  template: ${infer_model.prompt_templates.ceval_prompt_template}
+  column_token_map:
+    question: <Q>
+    answer: <A>
+    choice_a: <a>
+    choice_b: <b>
+    choice_c: <c>
+    choice_d: <d>
+  input_columns:
+  - question
+  - choice_a
+  - choice_b
+  - choice_c
+  - choice_d
+  output_column: answer
+  mask_column_token_map: answer
+  gen_args:
+    gen_length: 2
+    steps: 2
+    block_length: 2
+    mask_length: 2
+    mc_num: 1
+dataset:
+  version: local
+  train_path: data/c-eval/train-00000-of-00001.parquet
+  test_path: data/c-eval/test-00000-of-00001.parquet
+  template: ${infer_model.prompt_templates.ceval_prompt_template}
+  name: ceval
+sampler:
+  _target_: lever_lm.candidate_sampler.text_sim_qwen_mmr_sampler.TextSimQwenMMRSampler
+  sampler_name: text_sim_qwen_mmr
+  candidate_num: 64
+  anchor_sample_num: 200
+  cache_dir: ./cache/${dataset.name}
+  overwrite: false
+  qwen_model_path: /home/lpr/.cache/modelscope/hub/models/Qwen/Qwen3-Embedding-4B
+  qwen_model_name: Qwen3-Embedding-4B
+  feature_cache_filename: ${task.task_name}-${dataset.name}-${sampler.qwen_model_name}-TextFeatures.pt
+  text_field_name: question
+  dataset_type: ${dataset.name}
+  device: ${device}
+  encode_batch_size: 64
+  coarse_k: 200
+  mmr_lambda: 0.1
+infer_model:
+  mask_id: 126336
+  model_path: /home/share/model_weight/llada/LLaDA-8B-Base/
+  trust_remote_code: true
+  local_files_only: true
+  torch_dtype: bfloat16
+  prompt_templates:
+    gsm8k_prompt_template: 'question: <Q>
+
+      <answer>
+
+      <A>
+
+      </answer>'
+    mmlu_prompt_template: '<Q>
+
+      A. <a>
+
+      B. <b>
+
+      C. <c>
+
+      D. <d>
+
+      Answer: <A>'
+    ceval_prompt_template: '<Q>
+
+      A. <a>
+
+      B. <b>
+
+      C. <c>
+
+      D. <d>
+
+      Answer: <A>'
+    cmmlu_prompt_template: '<Q>
+
+      A. <a>
+
+      B. <b>
+
+      C. <c>
+
+      D. <d>
+
+      Answer: <A>'
