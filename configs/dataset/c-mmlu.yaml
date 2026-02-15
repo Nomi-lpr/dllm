@@ -1,0 +1,6 @@
+# C-MMLU 数据集配置（train=dev，test=test，防泄露）
+version: "local"
+train_path: "data/cmmlu/train-00000-of-00001.parquet"
+test_path: "data/cmmlu/test-00000-of-00001.parquet"
+template: ${infer_model.prompt_templates.cmmlu_prompt_template}
+name: "cmmlu"

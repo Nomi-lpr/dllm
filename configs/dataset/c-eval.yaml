@@ -1,0 +1,6 @@
+# C-Eval 数据集配置（train=dev/val，test=test，防泄露）
+version: "local"
+train_path: "data/c-eval/train-00000-of-00001.parquet"
+test_path: "data/c-eval/test-00000-of-00001.parquet"
+template: ${infer_model.prompt_templates.ceval_prompt_template}
+name: "ceval"

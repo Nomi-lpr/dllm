@@ -1,0 +1,39 @@
+# Minimal requirements for LLaDA-ICL
+# 
+# IMPORTANT: Install PyTorch with CUDA support first!
+# Example for CUDA 12.4:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+# 
+# For other CUDA versions, check: https://pytorch.org/get-started/locally/
+# 
+# Core dependencies
+torch>=2.0.0
+# Qwen3-Embedding 需 transformers>=4.51.0（否则会 KeyError: 'qwen3'）；使用 modelscope 本地路径可不必升级
+transformers>=4.51.0
+numpy>=1.20.0
+tqdm>=4.60.0
+
+# Optional but recommended for visualization
+matplotlib>=3.5.0
+seaborn>=0.12.0
+
+# Optional but used in some scripts
+pyyaml>=6.0
+easydict>=1.10
+
+# Hydra configuration management (required for generate_data_main.py)
+hydra-core>=1.3.0
+omegaconf>=2.3.0
+
+# Datasets and data processing
+datasets>=2.0.0
+
+# Logging
+loguru>=0.7.0
+
+# Qwen3-Embedding 使用 modelscope 本地路径时（如 .cache/modelscope/...）需安装：
+# pip install modelscope
+# 否则需 transformers>=4.51.0 从 Hugging Face 加载
+# safetensors>=0.3.0  # For faster model loading
+# tokenizers>=0.13.0   # For tokenization
+# huggingface-hub>=0.16.0  # For model downloading
